@@ -1,0 +1,64 @@
+<template>
+  <div class="goods-item">
+      <img :src="goodsItem.show.img" alt="">
+      <div class="goods-info">
+          <p>{{goodsItem.title}}</p>
+          <span class="price">{{goodsItem.price}}</span>
+          <span class="collect">{{goodsItem.cfav}}</span>
+      </div>
+  </div>
+</template>
+
+<script>
+export default {
+    name:'GoodsListItem',
+    props:{
+        goodsItem:{
+            type:Object,
+            default(){
+                return []
+            }
+        }
+    }
+}
+</script>
+
+<style scoped>
+.goods-item{
+    width: 48%;
+    
+}
+.goods-item img{
+    width: 100%;
+    border-radius: 5px;
+    
+}
+.goods-info{
+    font-size: 12px;
+    text-align: center;
+}
+.goods-info p{
+    overflow: hidden;
+    text-overflow: ellipsis;
+    white-space: nowrap;
+    margin-bottom: 2px;
+}
+.goods-info .price{
+    color: #ff8198;
+}
+.goods-info .collect{
+    position: relative;
+    margin-left: 15px;
+}
+.goods-info .collect::before{
+    content: '';
+    position: absolute;
+    background: url('~assets/img/common/collect.svg');
+    background-size: 14px;
+    width: 14px;
+    height: 14px;
+    left: -14px;
+    top: -1px;
+}
+
+</style>

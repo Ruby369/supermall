@@ -3,52 +3,25 @@
     <nav-bar class="home-nav">
       <div slot="center">购物街</div>
     </nav-bar>
-    <home-swiper :banners="banners"></home-swiper>
-    <recommend-view :recommends="recommends"></recommend-view>
-    <feature-view></feature-view>
-    <tab-control class="tab-control" :titles="['流行','新款','精选']"></tab-control>
 
+    <scroll class="content">
+      <home-swiper :banners="banners"></home-swiper>
+      <recommend-view :recommends="recommends"></recommend-view>
+      <feature-view></feature-view>
+      <tab-control class="tab-control" :titles="['流行','新款','精选']" @tabClick="tabclick"></tab-control>
+      <goods-list :goods="showGoods"></goods-list>
+    </scroll>
     <ul>
-      <li>标签</li>
-      <li>标签</li>
-      <li>标签</li>
-      <li>标签</li>
-      <li>标签</li>
-      <li>标签</li>
-      <li>标签</li>
-      <li>标签</li>
-      <li>标签</li>
-      <li>标签</li>
-      <li>标签</li>
-      <li>标签</li>
-      <li>标签</li>
-      <li>标签</li>
-      <li>标签</li>
-      <li>标签</li>
-      <li>标签</li>
-      <li>标签</li>
-      <li>标签</li>
-      <li>标签</li>
-      <li>标签</li>
-      <li>标签</li>
-      <li>标签</li>
-      <li>标签</li>
-      <li>标签</li>
-      <li>标签</li>
-      <li>标签</li>
-      <li>标签</li>
-      <li>标签</li>
-      <li>标签</li>
-      <li>标签</li>
-      <li>标签</li>
-      <li>标签</li>
-      <li>标签</li>
-      <li>标签</li>
-      <li>标签</li>
-      <li>标签</li>
-      <li>标签</li>
-      <li>标签</li>
-      <li>标签</li>
+      <li>1</li>
+      <li>2</li>
+      <li>3</li>
+      <li>4</li>
+      <li>5</li>
+      <li>6</li>
+      <li>7</li>
+      <li>8</li>
+      <li>9</li>
+      <li>10</li>
     </ul>
   </div>
 </template>
@@ -59,6 +32,8 @@ import HomeSwiper from "./childComps/HomeSwiper";
 import RecommendView from "./childComps/RecommendView";
 import FeatureView from "./childComps/FeatureView";
 import TabControl from "components/content/tabControl/TabControl";
+import GoodsList from "components/content/goods/GoodsList";
+import Scroll from "components/common/scroll/Scroll";
 
 import { getHomeMultidata, getHomeGoods } from "network/home";
 
@@ -69,7 +44,9 @@ export default {
     HomeSwiper,
     RecommendView,
     FeatureView,
-    TabControl
+    TabControl,
+    GoodsList,
+    Scroll
   },
   data() {
     return {
@@ -79,12 +56,19 @@ export default {
         pop: { page: 0, list: [] },
         new: { page: 0, list: [] },
         sell: { page: 0, list: [] }
-      }
+      },
+      currentType: "pop"
     };
+  },
+  computed: {
+    showGoods() {
+      return this.goods[this.currentType].list;
+    }
   },
   created() {
     //1.请求多个数据
     this.getHomeMultidata();
+    //写this才会指定这个位置的方法 否则名字相同不知道调用哪个
 
     //2.请求商品数据
     this.getHomeGoods("pop");
@@ -92,6 +76,33 @@ export default {
     this.getHomeGoods("sell");
   },
   methods: {
+    /**
+     * 事件监听相关的方法
+     */
+    tabclick(index) {
+      if (index == 0) {
+        this.currentType = "pop";
+      } else if (index == 1) {
+        this.currentType = "new";
+      } else if (index == 2) {
+        this.currentType = "sell";
+      }
+      // switch(index){
+      //   case 0:
+      //     this.currentType = 'pop'
+      //     break
+      //   case 1:
+      //     this.currentType = 'new'
+      //     break
+      //   case 2:
+      //     this.currentType = 'sell'
+      //     break
+      // }
+    },
+
+    /**
+     * 网络请求相关的方法
+     */
     getHomeMultidata() {
       getHomeMultidata().then(res => {
         // console.log(res);
@@ -113,6 +124,7 @@ export default {
 <style scoped>
 #home {
   padding-top: 44px;
+  padding-bottom: 55px;
 }
 .home-nav {
   background-color: var(--color-tint);
@@ -121,11 +133,14 @@ export default {
   left: 0;
   top: 0;
   right: 0;
-  z-index: 10;
+  z-index: 9;
 }
 .tab-control {
   position: sticky;
   top: 44px;
   background-color: #fff;
+}
+.content{
+  height: calc(100vh - 95px);
 }
 </style>
