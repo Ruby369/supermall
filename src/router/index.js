@@ -16,7 +16,8 @@ Vue.use(VueRouter)
     {
       path:'/home',
       // component:Home
-      component:() => import('views/home/Home')
+      component:() => import('views/home/Home'),
+
     },
     {
       path:'/cart',
@@ -35,7 +36,13 @@ Vue.use(VueRouter)
       // component:Profile
       component:() => import('views/profile/Profile')
 
+    },
+    {
+      path:'/detail/:iid',
+      // component:Profile
+      component:() => import('views/detail/Detail')
     }
+
 ]
 
 const router = new VueRouter({

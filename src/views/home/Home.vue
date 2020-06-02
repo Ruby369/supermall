@@ -1,13 +1,13 @@
 <template>
   <div id="home">
-    <nav-bar class="home-nav">
+    <nav-bar class="home-nav" ref="navBar">
       <div slot="center">购物街</div>
     </nav-bar>
     <tab-control
       class="tab-control1"
       :titles="['流行','新款','精选']"
       @tabClick="tabclick"
-      ref="tabControl"
+      ref="tabControl1"
       v-show="isTabFixed"
     ></tab-control>
     <scroll
@@ -25,7 +25,7 @@
         class="tab-control"
         :titles="['流行','新款','精选']"
         @tabClick="tabclick"
-        ref="tabControl"
+        ref="tabControl2"
       ></tab-control>
       <goods-list :goods="showGoods"></goods-list>
     </scroll>
@@ -70,7 +70,8 @@ export default {
       currentType: "pop",
       isShowBackTop: false,
       tabOffsetTop: 0,
-      isTabFixed: false
+      isTabFixed: false,
+      saveY:0
     };
   },
   computed: {
@@ -101,6 +102,15 @@ export default {
     //所有的组件都有一个属性$el:用于获取组件中的元素
     // console.log(this.$refs.tabControl.$el.offsetTop);
   },
+  destroyed(){
+  },
+  activated(){
+    this.$refs.scroll.scrollTo(0,this.saveY,0)
+    this.$refs.scroll.refresh()
+  },
+  deactivated(){
+    this.saveY = this.$refs.scroll.scroll.y
+  },
   methods: {
     /**
      * 事件监听相关的方法
@@ -126,6 +136,8 @@ export default {
       } else if (index == 2) {
         this.currentType = "sell";
       }
+      this.$refs.tabControl1.currentIndex = index;
+      this.$refs.tabControl2.currentIndex = index;
       // switch(index){
       //   case 0:
       //     this.currentType = 'pop'
@@ -155,7 +167,9 @@ export default {
       this.getHomeGoods(this.currentType);
     },
     swiperImgLoad() {
-      this.tabOffsetTop = this.$refs.tabControl.$el.offsetTop;
+      this.tabOffsetTop = this.$refs.tabControl2.$el.offsetTop - this.$refs.navBar.$el.offsetHeight;
+      // console.log(this.$refs.tabControl2.$el.offsetTop)
+      // console.log(this.$refs.navBar.$el.offsetHeight)
     },
 
     /**
