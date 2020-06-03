@@ -92,10 +92,11 @@ export default {
   mounted() {
     //1.图片加载完成的事件监听
     const refresh = this.debounce(this.$refs.scroll.refresh, 50);
-    this.$bus.$on("itemImgLoad", () => {
+    this.$bus.$on("homeItemImgLoad", () => {
       // console.log('--')
       // this.$refs.scroll.refresh();
       refresh();
+      console.log('--')
     });
 
     //2.获取tabControl的offsetTop
@@ -105,11 +106,14 @@ export default {
   destroyed(){
   },
   activated(){
-    this.$refs.scroll.scrollTo(0,this.saveY,0)
+    this.$refs.scroll.scrollTo(0,this.saveY)
     this.$refs.scroll.refresh()
+    // console.log('活跃')
   },
   deactivated(){
     this.saveY = this.$refs.scroll.scroll.y
+    // console.log("去活");
+    
   },
   methods: {
     /**
