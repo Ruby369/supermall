@@ -1,7 +1,7 @@
 <template>
   <div id="detail">
-    <detail-nav-bar class="detail-navbar" @navBarClick="navBarClick"></detail-nav-bar>
-    <scroll class="detail-scroll" ref="detailScroll" @scroll="contentScroll">
+    <detail-nav-bar class="detail-navbar" @navBarClick="navBarClick" ref="nav"></detail-nav-bar>
+    <scroll class="detail-scroll" ref="scroll" :probe-type="3" @scroll="contentScroll">
       <detail-swiper :top-images="topImages"></detail-swiper>
       <detail-base-info :goods="goods"></detail-base-info>
       <detail-shop-info :shop="shop"></detail-shop-info>
@@ -10,6 +10,8 @@
       <detail-comment-info :commentInfo="commentInfo" ref="commentInfo" @imgLoad="imageLoad"></detail-comment-info>
       <goods-list :goods="recommend" ref="goodsList"></goods-list>
     </scroll>
+    <detail-bottom-bar @shopClick="shopClick"></detail-bottom-bar>
+    <back-top @click.native="backclick" v-show="isShowBackTop"></back-top>
   </div>
 </template>
 
@@ -21,9 +23,12 @@ import DetailShopInfo from "./childComps/DetailShopInfo";
 import DetailGoodsInfo from "./childComps/DetailGoodsInfo";
 import DetailParamInfo from "./childComps/DetailParamInfo";
 import DetailCommentInfo from "./childComps/DetailCommentInfo";
+import DetailBottomBar from "./childComps/DetailBottomBar";
 import GoodsList from "components/content/goods/GoodsList";
 
 import Scroll from "components/common/scroll/Scroll";
+import { debounce } from "common/utils";
+import { backTopMixin } from "common/mixin";
 
 //封装的方法和类
 import {
@@ -45,8 +50,10 @@ export default {
     DetailGoodsInfo,
     DetailParamInfo,
     DetailCommentInfo,
-    GoodsList
+    GoodsList,
+    DetailBottomBar
   },
+  mixins:[backTopMixin],
   data() {
     return {
       iid: null,
@@ -59,7 +66,8 @@ export default {
       recommend: [],
       paramInfoTop: 0,
       commentInfoTop: 0,
-      goodsListTop: 0
+      goodsListTop: 0,
+      themeTopYs: []
     };
   },
   created() {
@@ -102,38 +110,103 @@ export default {
       this.recommend = res.data.list;
     });
   },
-  mounted() {},
+  mounted() {
+    const refresh = debounce(this.$refs.scroll.refresh, 50);
+    this.$bus.$on("detailItemImgLoad", () => {
+      refresh();
+    });
+  },
   methods: {
     imageLoad() {
-      this.$refs.detailScroll.refresh();
-      this.paramInfoTop = this.$refs.paramInfo.$el.offsetTop;
+      this.$refs.scroll.refresh();
+      this.paramInfoTop = this.$refs.paramInfo.$el.offsetTop - 44;
       // console.log(this.paramInfoTop)
-      this.commentInfoTop = this.$refs.commentInfo.$el.offsetTop;
+      this.commentInfoTop = this.$refs.commentInfo.$el.offsetTop - 44;
       console.log("--");
-      this.goodsListTop = this.$refs.goodsList.$el.offsetTop;
+      this.goodsListTop = this.$refs.goodsList.$el.offsetTop - 44;
+
+      // this.themeTopYs = []
+      // this.themeTopYs.push(0);
+      // this.themeTopYs.push(this.$refs.paramInfo.$el.offsetTop - 44)
+      // this.themeTopYs.push(this.$refs.commentInfo.$el.offsetTop - 44)
+      // this.themeTopYs.push(this.$refs.goodsList.$el.offsetTop - 44)
+      // this.themeTopYs.push(Number.MAX_VALUE) //hadk写法添加条件
+      // console.log(this.themeTopYs)
+      //P206、207
     },
     navBarClick(index) {
       if (index == 0) {
-        this.$refs.detailScroll.scrollTo(0, 0);
+        this.$refs.scroll.scrollTo(0, 0);
       } else if (index == 1) {
-        this.$refs.detailScroll.scrollTo(0, -this.paramInfoTop + 44);
+        this.$refs.scroll.scrollTo(0, -this.paramInfoTop);
       } else if (index == 2) {
-        this.$refs.detailScroll.scrollTo(0, -this.commentInfoTop + 44);
+        this.$refs.scroll.scrollTo(0, -this.commentInfoTop);
       } else if (index == 3) {
-        this.$refs.detailScroll.scrollTo(0, -this.goodsListTop + 44);
+        this.$refs.scroll.scrollTo(0, -this.goodsListTop);
       }
     },
-    contentScroll(position){
-      // if(-position.y > this.paramInfoTop && -position.y < this.commentInfoTop){
-      //   navBarClick(index=1)
-      // }else if(-position.y > this.commentInfoTop && -position.y < this.goodsListTop){
-      //   navBarClick(index=2)
-      // }else if(-position.y > this.goodsListTop){
-      //   navBarClick(index=3)
-      // }
-      
-    }
+    contentScroll(position) {
+      let positionY = -position.y;
+      if (positionY > 0 && positionY < this.paramInfoTop) {
+        this.$refs.nav.currentIndex = 0;
+      } else if (
+        positionY >= this.paramInfoTop &&
+        positionY < this.commentInfoTop
+      ) {
+        this.$refs.nav.currentIndex = 1;
+      } else if (
+        positionY >= this.commentInfoTop &&
+        positionY < this.goodsListTop
+      ) {
+        this.$refs.nav.currentIndex = 2;
+      } else if (positionY >= this.goodsListTop) {
+        this.$refs.nav.currentIndex = 3;
+      }
 
+      // let length = this.themeTopYs.length
+      // for(let i = 0;i<length;i++){
+      //   if(this.currentIndex !== i && ((i<length - 1 && positionY >= this.themeTopYs[i] && positionY < this.themeTopYs[i+1])
+      //   ||(i === length - 1 && positionY >= this.themeTopYs[i]))){
+      //     this.currentIndex = i;
+      //     this.$refs.nav.currentIndex = this.currentIndex
+      //   }
+      // }
+
+      // hack做法
+      // for (let i = 0; i < length - 1; i++) {
+      //   if (
+      //     this.currentIndex !== i &&
+      //     positionY >= this.themeTopYs[i] && positionY < this.themeTopYs[i + 1]
+      //   ) {
+      //     this.currentIndex = i;
+      //     this.$refs.nav.currentIndex = this.currentIndex;
+      //   }
+      // }
+      //P206、207
+    },
+    contentScroll(position) {
+      // console.log(position)
+      // if(position.y < -700){
+      //   this.isShowBackTop = true
+      // }else{
+      //   this.isShowBackTop = false
+      // }
+      // 1.判断backtop是否显示
+      this.isShowBackTop = -position.y > 900;
+    },
+    shopClick(){
+      //1.获取购物车需要的信息
+      const product = {}
+      product.image = this.topImages[0];
+      product.title = this.goods.title;
+      product.desc = this.goods.desc;
+      product.price = this.goodsInfo.price;
+      product.iid = this.iid;
+
+      //2.将商品添加到购物车里
+      // this.$route.cartList.push(product)
+      this.$store.commit('addCart',product)
+    }
   }
 };
 </script>
@@ -150,7 +223,7 @@ export default {
   background-color: #fff;
 }
 .detail-scroll {
-  height: calc(100vh - 44px);
+  height: calc(100vh - 44px - 49px);
   overflow: hidden;
 }
 </style>

@@ -28,6 +28,9 @@ export default {
         titleClick(index){
             this.currentIndex = index
             this.$emit('navBarClick',index)
+            // console.log(this.currentIndex)
+            // console.log(index);
+            
         },
         backClick(){
             this.$router.go(-1)

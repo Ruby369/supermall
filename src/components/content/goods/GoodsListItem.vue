@@ -22,14 +22,17 @@ export default {
   },
   methods: {
     imgLoad() {
-      if (this.$route.path.indexOf("/home") == -1) {
+      if (this.$route.path.indexOf("/home") != -1) {
         this.$bus.$emit("homeItemImgLoad");
-        console.log("home");
-      } else if (this.$route.path.indexOf("/detail")) {
+        // console.log("home");
+      } else if (this.$route.path.indexOf("/detail") != -1) {
         this.$bus.$emit("detailItemImgLoad");
-        console.log("detail");
+        // console.log("detail");
       }
       // console.log(this.$bus)
+
+      //第二种方法
+      // this.$bus.$emit('itemImgLoad');
     },
     itemClick() {
       this.$router.push("/detail/" + this.goodsItem.iid);

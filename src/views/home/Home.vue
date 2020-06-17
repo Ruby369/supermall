@@ -42,8 +42,9 @@ import FeatureView from "./childComps/FeatureView";
 import TabControl from "components/content/tabControl/TabControl";
 import GoodsList from "components/content/goods/GoodsList";
 import Scroll from "components/common/scroll/Scroll";
-import BackTop from "components/content/backTop/BackTop";
 
+import {backTopMixin} from 'common/mixin'
+import {debounce} from 'common/utils'
 import { getHomeMultidata, getHomeGoods } from "network/home";
 
 export default {
@@ -56,8 +57,8 @@ export default {
     TabControl,
     GoodsList,
     Scroll,
-    BackTop
   },
+  mixins:[backTopMixin],
   data() {
     return {
       banners: [],
@@ -68,10 +69,11 @@ export default {
         sell: { page: 0, list: [] }
       },
       currentType: "pop",
-      isShowBackTop: false,
       tabOffsetTop: 0,
       isTabFixed: false,
-      saveY:0
+      saveY:0,
+      itemImgListener:null
+      
     };
   },
   computed: {
@@ -91,13 +93,18 @@ export default {
   },
   mounted() {
     //1.图片加载完成的事件监听
-    const refresh = this.debounce(this.$refs.scroll.refresh, 50);
+    const refresh = debounce(this.$refs.scroll.refresh, 50);
     this.$bus.$on("homeItemImgLoad", () => {
       // console.log('--')
       // this.$refs.scroll.refresh();
-      refresh();
-      console.log('--')
+      refresh()
+      // console.log('--')
     });
+
+    // 图片加载完成的事件监听第二种办法
+    // const refresh1 = this.debounce(this.$refs.scroll.refresh, 50);
+    // this.itemImgListener = () => {refresh()}
+    // this.$bus.$on("homeItemImgLoad", this.itemImgListener);
 
     //2.获取tabControl的offsetTop
     //所有的组件都有一个属性$el:用于获取组件中的元素
@@ -111,27 +118,28 @@ export default {
     // console.log('活跃')
   },
   deactivated(){
+    // 1.保存Y值
     this.saveY = this.$refs.scroll.scroll.y
     // console.log("去活");
     
+    // 2.取消全局事件的监听
+    // this.$bus.$off('itemImaLoad',this.item)
   },
   methods: {
     /**
      * 事件监听相关的方法
      */
     //防抖函数
-    debounce(func, delay) {
-      let timer = null;
-      return function(...args) {
-        if (timer) clearTimeout(timer);
-        timer = setTimeout(() => {
-          func.apply(this, args);
-        }, delay);
-      };
-    },
-    backclick() {
-      this.$refs.scroll.scrollTo(0, 0);
-    },
+    // debounce(func, delay) {
+    //   let timer = null;
+    //   return function(...args) {
+    //     if (timer) clearTimeout(timer);
+    //     timer = setTimeout(() => {
+    //       func.apply(this, args);
+    //     }, delay);
+    //   };
+    // },
+
     tabclick(index) {
       if (index == 0) {
         this.currentType = "pop";
