@@ -200,12 +200,15 @@ export default {
       product.image = this.topImages[0];
       product.title = this.goods.title;
       product.desc = this.goods.desc;
-      product.price = this.goodsInfo.price;
+      product.price = this.goods.price;
       product.iid = this.iid;
 
       //2.将商品添加到购物车里
-      // this.$route.cartList.push(product)
-      this.$store.commit('addCart',product)
+      // this.$route.cartList.push(product) 不要直接加进去 这样vue工具检测不到
+      // 放进mutations
+      this.$store.commit('addCart',product) 
+      // 放进actions
+      // this.$store.dispatch('addCart',product)
     }
   }
 };

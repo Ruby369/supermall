@@ -1,0 +1,16 @@
+{
+  "id": "1893209",
+  "name": "test",
+  "font_family": "iconfont",
+  "css_prefix_text": "icon-",
+  "description": "",
+  "glyphs": [
+    {
+      "icon_id": "968656",
+      "name": "选中",
+      "font_class": "check1",
+      "unicode": "e64c",
+      "unicode_decimal": 58956
+    }
+  ]
+}
