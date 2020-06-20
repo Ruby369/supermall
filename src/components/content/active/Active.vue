@@ -1,7 +1,7 @@
 <template>
   <div class="active-btn">
     <div class="active-icon" :class="{'check':checked}">
-      <i class="iconfont " :class="{'icon-check1':checked}" @click="activeClick"></i>
+      <i class="iconfont " :class="{'icon-check1':checked}"></i>
     </div>
     <slot name="title"></slot>
   </div>
@@ -19,9 +19,9 @@ export default {
     }
   },
   methods: {
-    activeClick() {
-      this.$emit('activeClick')
-    }
+    // activeClick() {
+    //   this.$emit('activeClick')
+    // }
   }
 };
 </script>

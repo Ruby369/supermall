@@ -1,6 +1,6 @@
 <template>
   <li class="cart-list-item">
-    <active :checked="cartListItem.check" @click.native="activeClick()"></active>
+    <active :checked="cartListItem.check" @click.native="cartOneClick"></active>
     <div class="item-img">
       <img :src="cartListItem.image" alt />
     </div>
@@ -11,7 +11,7 @@
       <div class="flex"></div>
       <div class="info-bottom">
         <div class="info-left">
-          <span>{{cartListItem.price}}</span>
+          <span>￥{{cartListItem.nowPrice}}</span>
         </div>
         <div class="info-right">
           <span>x</span>
@@ -38,7 +38,7 @@ export default {
     Active
   },
   methods:{
-    activeClick(){
+    cartOneClick(){
       this.$store.commit("cartOneClick",this.cartListItem)
     }
   }

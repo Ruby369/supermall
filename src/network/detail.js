@@ -25,6 +25,7 @@ export class GoodsInfo{
         this.discountBgColor = itemInfo.discountBgColor;
         this.columns = columns;
         this.services = services;
+        this.nowPrice = itemInfo.lowPrice;
     }
 }
 
@@ -35,7 +36,7 @@ export class Shop {
 		this.fans = shopInfo.cFans;
 		this.sells = shopInfo.cSells;
 		this.score = shopInfo.score;
-		this.goodsCount = shopInfo.cGoods
+        this.goodsCount = shopInfo.cGoods
 	}
 }
 
