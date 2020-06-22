@@ -15,7 +15,8 @@ obj.install = function(Vue){
     //4.toast.$el对应的就是div
     document.body.appendChild(toast.$el)
 
-    Vue.prototype.$toast = Toast;
+    // Vue.prototype.$toast = Toast; 错误
+    Vue.prototype.$toast = toast;
 }
 
 export default obj

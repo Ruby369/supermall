@@ -213,6 +213,7 @@ export default {
       // this.$store.commit("addCart", product);
       // 放进actions 异步 promise
       this.$store.dispatch("addCart", product).then(res => {
+        // console.log(this.$toast);
         this.$toast.show(res,1500)
         // this.toastShow = true;
         // this.message = res;

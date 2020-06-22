@@ -11,6 +11,13 @@ export default new Vuex.Store({
     cartOneClick(state, payload) {
       payload.check = !payload.check
     },
+    addProCount(state,payload){
+      payload.count += 1
+    },
+    addPro(state,payload){
+      state.cartList.push(payload)
+    }
+
   },
   actions: {
     addCart(context, payload) {
@@ -29,12 +36,14 @@ export default new Vuex.Store({
 
         //2.判断oldProduct
         if (oldProduct) {
-          oldProduct.count += 1
+          // oldProduct.count += 1
+          context.commit('addProCount',oldProduct)
           resolve('当前的商品数量+1')
         } else {
           payload.check = false
           payload.count = 1
-          context.state.cartList.push(payload)
+          context.commit('addPro',payload)
+          // context.state.cartList.push(payload)
           resolve('添加新商品')
         }
       })

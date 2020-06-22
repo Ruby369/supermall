@@ -16,11 +16,10 @@ export default {
         return{
             message:'',
             isshow:false
-            
         }
     },
     methods: {
-        show(message="默认文字",duration=1500){
+        show(message="默认文字",duration=2000){
             this.isshow = true;
             this.message = message;
             setTimeout(() => {
@@ -40,7 +39,7 @@ export default {
     transform: translate(-50%,-50%);
     color: #fff;
     padding: 10px;
-
+    z-index: 999;
     background-color: rgba(0,0,0,0.75);
 }
 </style>
