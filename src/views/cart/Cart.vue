@@ -49,7 +49,7 @@ export default {
     },
     total(){
       if(!this.$store.state.cartList.find(item => item.check == true)){
-        this.$toast.show("你还没选择商品",1500)
+        this.$toast.show("您还没选择商品呢",1500)
         // this.isShow = true;
         // this.message = "你没有选择商品"
         // setTimeout(() => {

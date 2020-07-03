@@ -28,6 +28,8 @@ export default {
       } else if (this.$route.path.indexOf("/detail") != -1) {
         this.$bus.$emit("detailItemImgLoad");
         // console.log("detail");
+      }else if(this.$route.path.indexOf("/category") != -1){
+        this.$bus.$emit("categoryItemImgLoad")
       }
       // console.log(this.$bus)
 
@@ -48,7 +50,9 @@ export default {
   },
   computed: {
     showImg() {
-      return this.goodsItem.image || this.goodsItem.show.img;
+      return (
+        this.goodsItem.img || this.goodsItem.image || this.goodsItem.show.img
+      );
     }
   }
 };

@@ -51,12 +51,15 @@ export default {
 .tab-bar-item {
   flex: 1;
   text-align: center;
-  font-size: 14px;
 }
 .tab-bar-item .item-icon img,.item-icon-active img {
   width: 24px;
   height: 24px;
   margin-top: 5px;
   vertical-align: middle;
+}
+.item-text{
+  margin-top: 3px;
+  font-size: 12px;
 }
 </style>
