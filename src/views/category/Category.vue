@@ -70,6 +70,7 @@ export default {
       });
     },
     selectMenu(index) {
+      this.$refs.menuItemScroll.scrollTo(0,0,10)
       this._getSubcategory(index);
     },
     _getSubcategory(index) {
@@ -90,7 +91,6 @@ export default {
       getCategoryDetail(miniWallkey, type).then(res => {
         this.goods[type] = res;
         // console.log(this.goods);
-
         this.goods = { ...this.goods };
       });
     },
