@@ -60,7 +60,8 @@ export default {
 
 <style scoped>
 .goods-item {
-  width: 48%;
+  width: 50%;
+  padding:5px;
 }
 .goods-item img {
   width: 100%;

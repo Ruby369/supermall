@@ -1,6 +1,6 @@
 <template>
     <div id="tab-menu-item">
-        <a :href="item.link" v-for="(item,index) in menuItem" :key="index">
+        <a v-for="(item,index) in menuItem" :key="index">
             <img :src="item.image" @load="imgLoad" alt="">
             <div>{{item.title}}</div>
         </a>

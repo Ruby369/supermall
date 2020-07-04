@@ -1,17 +1,17 @@
 <template>
   <div id="user-info">
-      <a href="#" class="userinfo">
+      <div class="userinfo">
           <div class="head-box">
-              <img src="~assets/img/profile/avatar.svg" alt="">
+              <slot name="box-img"><img src="~assets/img/profile/avatar.svg" alt=""></slot>
           </div>
           <div class="head-info">
-              <div class="login">登录/注册</div>
-              <div class="phone"><img src="~assets/img/profile/phone.svg" alt="">暂无绑定手机号</div>
+              <div class="login"><slot name="login">登录/注册</slot> </div>
+              <div class="phone"><slot name="phone"><img src="~assets/img/profile/phone.svg" alt="">暂无绑定手机号</slot></div>
           </div>
           <div class="head-i">
               <i class="iconfont icon-dayuhao"></i>
           </div>
-      </a>
+      </div>
   </div>
 </template>
 

@@ -6,6 +6,7 @@ Vue.use(Vuex)
 export default new Vuex.Store({
   state: {
     cartList: [],
+    token:false
   },
   mutations: {
     cartOneClick(state, payload) {

@@ -38,6 +38,12 @@ Vue.use(VueRouter)
 
     },
     {
+      path:'/login',
+      // component:Profile
+      component:() => import('views/login/Login')
+
+    },
+    {
       path:'/detail/:iid',
       // component:Profile
       component:() => import('views/detail/Detail')

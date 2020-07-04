@@ -3,7 +3,24 @@
     <nav-bar class="pro-nav">
       <div slot="center">购物商城</div>
     </nav-bar>
-    <user-info></user-info>
+    <user-info v-if="!$store.state.token" @click.native="loginClick">
+      <div slot="box-img" class="head-box">
+        <img src="~assets/img/profile/avatar.svg" alt />
+      </div>
+      <div slot="login">登录/注册</div>
+      <div slot="phone" class="phone">
+        <img src="~assets/img/profile/phone.svg" alt />暂无绑定手机号
+      </div>
+    </user-info>
+    <user-info v-else>
+      <div slot="box-img" class="head-box">
+        <img src="~assets/img/profile/info-head.jpg" alt />
+      </div>
+      <div slot="login">ruby</div>
+      <div slot="phone" class="phone">
+        <img src="~assets/img/profile/phone.svg" alt />123456789
+      </div>
+    </user-info>
     <div class="account">
       <div class="account-row">
         <div class="number">
@@ -42,17 +59,22 @@ export default {
   },
   data() {
     return {
-      list_one:[
-        {src:require('assets/img/profile/message.svg'),info:'我的消息'},
-        {src:require('assets/img/profile/pointer.svg'),info:'积分商城'},
-        {src:require('assets/img/profile/vip.svg'),info:'会员卡'}
+      list_one: [
+        { src: require("assets/img/profile/message.svg"), info: "我的消息" },
+        { src: require("assets/img/profile/pointer.svg"), info: "积分商城" },
+        { src: require("assets/img/profile/vip.svg"), info: "会员卡" }
       ],
-      list_two:[
-        {src:require('assets/img/profile/cart.svg'),info:'我的购物车'},
-        {src:require('assets/img/profile/shopping.svg'),info:'下载购物APP'}
-      ]
-    }
+      list_two: [
+        { src: require("assets/img/profile/cart.svg"), info: "我的购物车" },
+        { src: require("assets/img/profile/shopping.svg"), info: "下载购物APP" }
+      ],
+    };
   },
+  methods: {
+    loginClick() {
+      this.$router.push('/login')
+    }
+  }
 };
 </script>
 
@@ -68,23 +90,33 @@ export default {
   top: 0;
   right: 0;
 }
-.account{
+.account {
   display: flex;
   text-align: center;
 }
-.account-row{
+.account-row {
   flex: 1;
   padding: 15px;
   border-right: 1px solid #f2f2f2;
 }
-.account-row:last-child{
+.account-row:last-child {
   border-right: 0px;
 }
-.number span{
+.number span {
   color: #ff5f3e;
   font-size: 24px;
 }
-.account-info{
+.account-info {
   margin-top: 5px;
+}
+
+.head-box {
+  width: 70px;
+  height: 70px;
+  border-radius: 50%;
+}
+.phone img {
+  width: 20px;
+  height: 28px;
 }
 </style>

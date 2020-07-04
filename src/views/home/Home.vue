@@ -150,6 +150,7 @@ export default {
       }
       this.$refs.tabControl1.currentIndex = index;
       this.$refs.tabControl2.currentIndex = index;
+      this.$refs.scroll.scrollTo(0,-this.tabOffsetTop,500)
       // switch(index){
       //   case 0:
       //     this.currentType = 'pop'
