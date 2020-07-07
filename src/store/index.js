@@ -6,7 +6,7 @@ Vue.use(Vuex)
 export default new Vuex.Store({
   state: {
     cartList: [],
-    token:false
+    token:''
   },
   mutations: {
     cartOneClick(state, payload) {
@@ -17,6 +17,12 @@ export default new Vuex.Store({
     },
     addPro(state,payload){
       state.cartList.push(payload)
+    },
+    AddToken(state,payload){
+      state.token = payload
+    },
+    exitClick(state,payload){
+      state.token = ''
     }
 
   },

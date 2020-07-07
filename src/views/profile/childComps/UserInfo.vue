@@ -9,7 +9,7 @@
               <div class="phone"><slot name="phone"><img src="~assets/img/profile/phone.svg" alt="">暂无绑定手机号</slot></div>
           </div>
           <div class="head-i">
-              <i class="iconfont icon-dayuhao"></i>
+              <div class="exit"><slot name="exit"><i class="iconfont icon-dayuhao"></i></slot></div>
           </div>
       </div>
   </div>

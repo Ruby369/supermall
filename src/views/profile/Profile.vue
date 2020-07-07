@@ -3,7 +3,7 @@
     <nav-bar class="pro-nav">
       <div slot="center">购物商城</div>
     </nav-bar>
-    <user-info v-if="!$store.state.token" @click.native="loginClick">
+    <user-info v-if="!token" @click.native="loginClick">
       <div slot="box-img" class="head-box">
         <img src="~assets/img/profile/avatar.svg" alt />
       </div>
@@ -20,8 +20,9 @@
       <div slot="phone" class="phone">
         <img src="~assets/img/profile/phone.svg" alt />123456789
       </div>
+      <div slot="exit" class="exit" @click="exitClick">退出</div>
     </user-info>
-    <div class="account">
+    <div class="account" v-if="!token">
       <div class="account-row">
         <div class="number">
           <span>0.00</span>元
@@ -37,6 +38,26 @@
       <div class="account-row">
         <div class="number">
           <span>0</span>分
+        </div>
+        <div class="account-info">我的积分</div>
+      </div>
+    </div>
+    <div class="account" v-else>
+      <div class="account-row">
+        <div class="number">
+          <span>999</span>元
+        </div>
+        <div class="account-info">我的余额</div>
+      </div>
+      <div class="account-row">
+        <div class="number">
+          <span>99</span>个
+        </div>
+        <div class="account-info">我的优惠</div>
+      </div>
+      <div class="account-row">
+        <div class="number">
+          <span>999</span>分
         </div>
         <div class="account-info">我的积分</div>
       </div>
@@ -67,12 +88,25 @@ export default {
       list_two: [
         { src: require("assets/img/profile/cart.svg"), info: "我的购物车" },
         { src: require("assets/img/profile/shopping.svg"), info: "下载购物APP" }
-      ],
+      ]
     };
   },
   methods: {
     loginClick() {
-      this.$router.push('/login')
+      this.$router.push("/login");
+    },
+    exitClick() {
+      this.$store.commit("exitClick");
+    }
+  },
+  computed: {
+    token() {
+      let token = window.sessionStorage.getItem("token");
+      if (token == this.$store.state.token) {
+        return true;
+      } else {
+        return false;
+      }
     }
   }
 };
@@ -118,5 +152,8 @@ export default {
 .phone img {
   width: 20px;
   height: 28px;
+}
+.exit {
+  color: #ffffff;
 }
 </style>

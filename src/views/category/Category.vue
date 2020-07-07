@@ -125,6 +125,7 @@ export default {
 <style scoped>
 #category {
   padding-top: 44px;
+  overflow-y: hidden;
 }
 .cate-nav {
   position: fixed;
