@@ -1,5 +1,4 @@
 import axios from 'axios'
-
 export function login(options) {
     return new Promise((resolve, reject) => {
         const instance = axios.create({
@@ -26,3 +25,4 @@ export function loginhttp(form) {
         params:form
     })
 }
+

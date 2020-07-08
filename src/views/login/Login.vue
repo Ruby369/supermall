@@ -33,7 +33,7 @@
 </template>
 
 <script>
-import { loginhttp } from "network/login";
+import { loginhttp, ajax } from "network/login";
 export default {
   name: "Login",
   data() {
@@ -58,17 +58,17 @@ export default {
     },
     loginClick() {
       this.$refs.loginRef.validate(valid => {
-        if (!valid) return this.$message.error('账号或密码格式不对');
+        if (!valid) return this.$message.error("账号或密码格式不对");
         loginhttp(this.loginForm).then(res => {
           // console.log(res);
           // console.log(this.loginForm);
-          let status = res.meta.status
-          if(status !== 200) return this.$message.error('登录失败，账号或密码错误')
-          this.$message.success('登录成功')
-          window.sessionStorage.setItem('token',res.data.token)
-          this.$store.commit('AddToken',res.data.token)
-          this.$router.replace('/profile')
-          
+          let status = res.meta.status;
+          if (status !== 200)
+            return this.$message.error("登录失败，账号或密码错误");
+          this.$message.success("登录成功");
+          window.sessionStorage.setItem("token", res.data.token);
+          this.$store.commit("AddToken", res.data.token);
+          this.$router.replace("/profile");
         });
       });
     }
@@ -78,7 +78,13 @@ export default {
 <style>
 #login {
   height: 100vh;
-  background: linear-gradient(240deg,#feb781,#ff8199 30%,#fe8c8c 70%, #feb781);
+  background: linear-gradient(
+    240deg,
+    #feb781,
+    #ff8199 30%,
+    #fe8c8c 70%,
+    #feb781
+  );
 }
 .login-box {
   height: 80vh;
@@ -98,13 +104,17 @@ export default {
   background-color: #ff8198;
   border-color: #ff8198;
 }
+.el-button--primary:hover {
+  background-color: #f88da1;
+  border-color: #f88da1;
+}
 .el-button + .el-button {
   margin-left: 25%;
 }
 .submit {
   margin-top: 30px;
 }
-.el-message{
+.el-message {
   min-width: 300px;
 }
 </style>
